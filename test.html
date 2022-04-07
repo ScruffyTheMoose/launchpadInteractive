@@ -12,22 +12,24 @@
 </head>
 
 <body>
-    <!--[if lt IE 7]>
-            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
-
-    <script src="" async defer></script>
+    <h1 id="main"></h1>
+    <h1 id="0"></h1>
+    <h1 id="1"></h1>
+    <h1 id="2"></h1>
+    <h1 id="3"></h1>
 </body>
 
 <script>
 
-    runCall();
+    lat = 39.28
+    lon = -31.14
+    key = "45b9b8484d1aa1c0ce42f5bc3abe2714"
 
     function runCall() {
         $.ajax({
             type: 'GET',
             dataType: 'json',
-            url: "http://smashlounge.com/api/groups/all",
+            url: `https://financialmodelingprep.com/api/v3/historical-price-full/AAPL?apikey=f02d97317321d926e73f2343ac8a5b65`,
             async: false,
             crossDomain: true,
 
@@ -39,6 +41,8 @@
             }
         })
     }
+
+    runCall();
 
 </script>
 
