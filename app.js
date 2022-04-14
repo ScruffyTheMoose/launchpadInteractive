@@ -71,7 +71,8 @@ function handleInput(input) {
     }
 }
 
-
+// each matrix is in order so that the referenced number will represent the row, column movement
+// use linear search to find the key ID pressed, and then convert to lat/lon accordingly
 TRmatrix = [
     [84, 85, 86, 87],
     [88, 89, 90, 91],
@@ -126,6 +127,17 @@ function keyOn(keyID) {
 
 function keyOff(keyID) {
     console.log(`key: ${keyID} OFF`);
+}
+
+
+function linearSearch(matrix, target) {
+    for (let i = 0; i < matrix.length; i++) {
+        for (let j = 0; j < matrix[i].length; j++) {
+            if (matrix[i][j] == target) {
+                return [i, j];
+            }
+        }
+    }
 }
 
 
