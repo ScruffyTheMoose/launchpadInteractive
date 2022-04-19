@@ -1,0 +1,1 @@
+// JS file to manage the start button and build the grid for plotting elevations and colors
