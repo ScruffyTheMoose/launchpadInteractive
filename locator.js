@@ -1,6 +1,7 @@
 // base case data for user
 navigator.geolocation.getCurrentPosition(GPSsuccess, GPSerror, options);
 gpsLoc = {};
+userElev = 0;
 
 
 /**
@@ -22,7 +23,7 @@ function keyOn(keyID) {
         let mult = matrixSearch(BLmatrix, keyID);
         let elev = runCall(gpsLoc.latitude + mToLat(-100 * mult[0]), gpsLoc.longitude + mToLong(-100 * mult[1]));
         document.getElementById(keyID).innerHTML = elev;
-        colorkeys(keyID, 100);
+        colorkeys(keyID, Math.floor(Math.abs(map(elev, userElev, 7))));
 
     } else if (keyID >= 52 && keyID <= 67) {
 
@@ -36,7 +37,7 @@ function keyOn(keyID) {
         let mult = matrixSearch(TLmatrix, keyID);
         let elev = runCall(gpsLoc.latitude + mToLat(100 * mult[0]), gpsLoc.longitude + mToLong(-100 * mult[1]));
         document.getElementById(keyID).innerHTML = elev;
-        colorkeys(keyID, 7);
+        colorkeys(keyID, Math.floor(Math.abs(map(elev, userElev, 7))));
 
     } else if (keyID >= 68 && keyID <= 83) {
 
@@ -50,7 +51,7 @@ function keyOn(keyID) {
         let mult = matrixSearch(BRmatrix, keyID);
         let elev = runCall(gpsLoc.latitude + mToLat(-100 * mult[0]), gpsLoc.longitude + mToLong(100 * mult[1]));
         document.getElementById(keyID).innerHTML = elev;
-        colorkeys(keyID, 2);
+        colorkeys(keyID, Math.floor(Math.abs(map(elev, userElev, 7))));
 
     } else if (keyID >= 84 && keyID <= 99) {
 
@@ -64,7 +65,7 @@ function keyOn(keyID) {
         let mult = matrixSearch(TRmatrix, keyID);
         let elev = runCall(gpsLoc.latitude + mToLat(100 * mult[0]), gpsLoc.longitude + mToLong(100 * mult[1]));
         document.getElementById(keyID).innerHTML = elev;
-        colorkeys(keyID, 2);
+        colorkeys(keyID, Math.floor(Math.abs(map(elev, userElev, 7))));
 
     }
 }

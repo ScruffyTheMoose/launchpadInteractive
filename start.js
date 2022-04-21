@@ -73,4 +73,5 @@ function start() {
 function userPos() {
     let elev = runCall(gpsLoc.latitude, gpsLoc.longitude);
     document.getElementById("center").innerHTML = elev;
+    userElev = elev;
 }
