@@ -1,7 +1,6 @@
 // base case data for user
 navigator.geolocation.getCurrentPosition(GPSsuccess, GPSerror, options);
 gpsLoc = {};
-baseElevation = 0;
 
 
 /**
@@ -22,7 +21,7 @@ function keyOn(keyID) {
 
         let mult = matrixSearch(BLmatrix, keyID);
         let elev = runCall(gpsLoc.latitude + mToLat(-100 * mult[0]), gpsLoc.longitude + mToLong(-100 * mult[1]));
-        console.log(elev);
+        document.getElementById(keyID).innerHTML = elev;
         colorkeys(keyID, 100);
 
     } else if (keyID >= 52 && keyID <= 67) {
@@ -36,7 +35,7 @@ function keyOn(keyID) {
 
         let mult = matrixSearch(TLmatrix, keyID);
         let elev = runCall(gpsLoc.latitude + mToLat(100 * mult[0]), gpsLoc.longitude + mToLong(-100 * mult[1]));
-        console.log(elev);
+        document.getElementById(keyID).innerHTML = elev;
         colorkeys(keyID, 7);
 
     } else if (keyID >= 68 && keyID <= 83) {
@@ -50,7 +49,7 @@ function keyOn(keyID) {
 
         let mult = matrixSearch(BRmatrix, keyID);
         let elev = runCall(gpsLoc.latitude + mToLat(-100 * mult[0]), gpsLoc.longitude + mToLong(100 * mult[1]));
-        console.log(elev);
+        document.getElementById(keyID).innerHTML = elev;
         colorkeys(keyID, 2);
 
     } else if (keyID >= 84 && keyID <= 99) {
@@ -64,11 +63,10 @@ function keyOn(keyID) {
 
         let mult = matrixSearch(TRmatrix, keyID);
         let elev = runCall(gpsLoc.latitude + mToLat(100 * mult[0]), gpsLoc.longitude + mToLong(100 * mult[1]));
-        console.log(elev);
+        document.getElementById(keyID).innerHTML = elev;
         colorkeys(keyID, 2);
 
     }
-
 }
 
 
@@ -105,7 +103,7 @@ function matrixSearch(matrix, target) {
  * @returns elevation in meters
  */
 function runCall(lat, lon) {
-    let result = 0;
+    let result = "N/A";
 
     $.ajax({
         type: 'GET',

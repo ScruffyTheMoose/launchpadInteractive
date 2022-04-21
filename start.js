@@ -1,5 +1,22 @@
 // JS file to manage the start button and build the grid for plotting elevations and colors
 
+
+// layout of MIDI controller for easier assignment of ID
+const layout = [
+    64, 65, 66, 67, 96, 97, 98, 99,
+    60, 61, 62, 63, 92, 93, 94, 95,
+    56, 57, 58, 59, 88, 89, 90, 91,
+    52, 53, 54, 55, 84, 85, 86, 87,
+    48, 49, 50, 51, 80, 81, 82, 83,
+    44, 45, 46, 47, 76, 77, 78, 79,
+    40, 41, 42, 43, 72, 73, 74, 75,
+    36, 37, 38, 39, 68, 69, 70, 71
+]
+
+
+/**
+ * Builds the HTML grid of buttons for user interaction to display elevations/colors/coords relative to user position
+ */
 function start() {
 
     let main = document.createElement("div")
@@ -12,10 +29,11 @@ function start() {
     cont.id = "grid-cont-upper";
     document.getElementById("main").appendChild(cont);
 
-    for (let i = 1; i <= 32; i++) {
+    for (let i = 0; i < 32; i++) {
         let b = document.createElement("button");
         b.className = "box";
-        let node = document.createTextNode(i);
+        b.id = layout[i];
+        let node = document.createTextNode(layout[i]);
         b.appendChild(node);
 
         document.getElementById("grid-cont-upper").appendChild(b);
@@ -38,14 +56,21 @@ function start() {
     cont.id = "grid-cont-lower";
     document.getElementById("main").appendChild(cont);
 
-    for (let i = 33; i <= 64; i++) {
+    for (let i = 32; i < 64; i++) {
         let b = document.createElement("button");
         b.className = "box";
-        let node = document.createTextNode(i);
+        b.id = layout[i];
+        let node = document.createTextNode(layout[i]);
         b.appendChild(node);
 
         document.getElementById("grid-cont-lower").appendChild(b);
     }
 
     document.getElementById("start").remove();
+}
+
+
+function userPos() {
+    let elev = runCall(gpsLoc.latitude, gpsLoc.longitude);
+    document.getElementById("center").innerHTML = elev;
 }
