@@ -33,6 +33,7 @@ function start() {
         let b = document.createElement("button");
         b.className = "box";
         b.id = layout[i];
+        b.onclick = function () { keyOn(layout[i]) };
         let node = document.createTextNode(layout[i]);
         b.appendChild(node);
 
@@ -60,6 +61,7 @@ function start() {
         let b = document.createElement("button");
         b.className = "box";
         b.id = layout[i];
+        b.onclick = function () { keyOn(layout[i]) };
         let node = document.createTextNode(layout[i]);
         b.appendChild(node);
 
@@ -67,11 +69,15 @@ function start() {
     }
 
     document.getElementById("start").remove();
+
+    for (let i = 0; i < layout.length; i++) {
+        colorKeys(layout[i], 0);
+    }
 }
 
 
 function userPos() {
     let elev = runCall(gpsLoc.latitude, gpsLoc.longitude);
-    document.getElementById("center").innerHTML = elev;
+    document.getElementById("center").innerHTML = `You: ${elev}`;
     userElev = elev;
 }

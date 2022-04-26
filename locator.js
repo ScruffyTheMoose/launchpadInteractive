@@ -4,6 +4,16 @@ gpsLoc = {};
 userElev = 0;
 
 
+// Color arrays for Midi and associated RGB values for on screen display
+// color arrays structured as such -> [l, l, l, l ,l, l, 0, g, g, g, g, g, g]
+// to index using the color value mapping function, use -> array[6 + colorValue]
+const midiColors = [11, 10, 7, 6, 5, 4, 3, 17, 25, 33, 41, 49, 57];
+const RGBColors = [
+    "rgb(175, 120, 95)", "rgb(176, 100, 95)", "rgb(176, 100, 95)", "rgb(221, 97, 97)", "rgb(255, 96, 96)", "rgb(255, 180, 175)",
+    "rgb(50, 50, 50)", "rgb(194, 255, 84)", "rgb(100, 254, 142)", "rgb(93, 255, 239)", "rgb(98, 198, 255)", "rgb(163, 94, 255)", "rgb(255, 94, 193)"
+];
+
+
 /**
  * Actions to take on key press
  * @param {*} keyID 
@@ -23,7 +33,9 @@ function keyOn(keyID) {
         let mult = matrixSearch(BLmatrix, keyID);
         let elev = runCall(gpsLoc.latitude + mToLat(-100 * mult[0]), gpsLoc.longitude + mToLong(-100 * mult[1]));
         document.getElementById(keyID).innerHTML = elev;
-        colorkeys(keyID, Math.floor(Math.abs(map(elev, userElev, 7))));
+        let colorValue = map(userElev, elev);
+        colorKeys(keyID, midiColors[6 + colorValue]);
+        document.getElementById(keyID).style.backgroundColor = RGBColors[6 + colorValue];
 
     } else if (keyID >= 52 && keyID <= 67) {
 
@@ -37,7 +49,9 @@ function keyOn(keyID) {
         let mult = matrixSearch(TLmatrix, keyID);
         let elev = runCall(gpsLoc.latitude + mToLat(100 * mult[0]), gpsLoc.longitude + mToLong(-100 * mult[1]));
         document.getElementById(keyID).innerHTML = elev;
-        colorkeys(keyID, Math.floor(Math.abs(map(elev, userElev, 7))));
+        let colorValue = map(userElev, elev);
+        colorKeys(keyID, midiColors[6 + colorValue]);
+        document.getElementById(keyID).style.backgroundColor = RGBColors[6 + colorValue];
 
     } else if (keyID >= 68 && keyID <= 83) {
 
@@ -51,7 +65,9 @@ function keyOn(keyID) {
         let mult = matrixSearch(BRmatrix, keyID);
         let elev = runCall(gpsLoc.latitude + mToLat(-100 * mult[0]), gpsLoc.longitude + mToLong(100 * mult[1]));
         document.getElementById(keyID).innerHTML = elev;
-        colorkeys(keyID, Math.floor(Math.abs(map(elev, userElev, 7))));
+        let colorValue = map(userElev, elev);
+        colorKeys(keyID, midiColors[6 + colorValue]);
+        document.getElementById(keyID).style.backgroundColor = RGBColors[6 + colorValue];
 
     } else if (keyID >= 84 && keyID <= 99) {
 
@@ -65,7 +81,9 @@ function keyOn(keyID) {
         let mult = matrixSearch(TRmatrix, keyID);
         let elev = runCall(gpsLoc.latitude + mToLat(100 * mult[0]), gpsLoc.longitude + mToLong(100 * mult[1]));
         document.getElementById(keyID).innerHTML = elev;
-        colorkeys(keyID, Math.floor(Math.abs(map(elev, userElev, 7))));
+        let colorValue = map(userElev, elev);
+        colorKeys(keyID, midiColors[6 + colorValue]);
+        document.getElementById(keyID).style.backgroundColor = RGBColors[6 + colorValue];
 
     }
 }
@@ -179,13 +197,18 @@ function mToLong(m) {
 }
 
 
+function relDiff(user, current) {
+    return (current - user) / user;
+}
+
+
 /**
- * Scales a ratio value
- * @param {input numerator} input_num 
- * @param {input denominator} input_denom 
- * @param {output denominator} output_denom 
+ * Determines the relative difference between the user elevation and the current node elevation and scales to a color index value accordingly
+ * @param {user elevation} user 
+ * @param {current node elevation} current 
  * @returns 
  */
-function map(input_num, input_denom, output_denom) {
-    return (input_num * output_denom) / input_denom;
+function map(user, current) {
+    let percent = (current - user) / user;
+    return Math.round((percent * 6) / 100);
 }

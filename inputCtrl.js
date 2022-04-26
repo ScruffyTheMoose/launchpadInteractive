@@ -29,7 +29,7 @@ function success(midiAccess) {
 }
 
 
-function colorkeys(key, color) {
+function colorKeys(key, color) {
     device && device.send([0x90, key, color]);
 }
 
