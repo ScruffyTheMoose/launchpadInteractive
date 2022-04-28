@@ -30,7 +30,11 @@ function success(midiAccess) {
 
 
 function colorKeys(key, color) {
-    device && device.send([0x90, key, color]);
+    try {
+        device && device.send([0x90, key, color]);
+    } catch {
+        console.log("No MIDI connected, nothing to color...");
+    }
 }
 
 
