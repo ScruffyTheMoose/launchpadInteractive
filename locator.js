@@ -110,6 +110,8 @@ function keyOn(keyID) {
         document.getElementById(keyID).style.backgroundColor = RGBColors[6 + colorValue];
 
     }
+
+    keyOff(keyID);
 }
 
 
