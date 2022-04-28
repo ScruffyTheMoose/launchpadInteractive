@@ -1,5 +1,5 @@
 // base case data for user
-navigator.geolocation.getCurrentPosition(GPSsuccess, GPSerror, options);
+// navigator.geolocation.getCurrentPosition(GPSsuccess, GPSerror, options);
 gpsLoc = {};
 userElev = 0;
 
@@ -31,9 +31,12 @@ function keyOn(keyID) {
         ]
 
         let mult = matrixSearch(BLmatrix, keyID);
-        let elev = runCall(gpsLoc.latitude + mToLat(-100 * mult[0]), gpsLoc.longitude + mToLong(-100 * mult[1]));
+        let elev = runCall(gpsLoc.latitude + mToLat(-1000 * mult[0]), gpsLoc.longitude + mToLong(-1000 * mult[1]));
         document.getElementById(keyID).innerHTML = elev;
         let colorValue = map(userElev, elev);
+
+        console.log(colorValue);
+
         colorKeys(keyID, midiColors[6 + colorValue]);
         document.getElementById(keyID).style.backgroundColor = RGBColors[6 + colorValue];
 
@@ -47,7 +50,7 @@ function keyOn(keyID) {
         ]
 
         let mult = matrixSearch(TLmatrix, keyID);
-        let elev = runCall(gpsLoc.latitude + mToLat(100 * mult[0]), gpsLoc.longitude + mToLong(-100 * mult[1]));
+        let elev = runCall(gpsLoc.latitude + mToLat(1000 * mult[0]), gpsLoc.longitude + mToLong(-1000 * mult[1]));
         document.getElementById(keyID).innerHTML = elev;
         let colorValue = map(userElev, elev);
         colorKeys(keyID, midiColors[6 + colorValue]);
@@ -63,7 +66,7 @@ function keyOn(keyID) {
         ]
 
         let mult = matrixSearch(BRmatrix, keyID);
-        let elev = runCall(gpsLoc.latitude + mToLat(-100 * mult[0]), gpsLoc.longitude + mToLong(100 * mult[1]));
+        let elev = runCall(gpsLoc.latitude + mToLat(-1000 * mult[0]), gpsLoc.longitude + mToLong(1000 * mult[1]));
         document.getElementById(keyID).innerHTML = elev;
         let colorValue = map(userElev, elev);
         colorKeys(keyID, midiColors[6 + colorValue]);
@@ -79,7 +82,7 @@ function keyOn(keyID) {
         ]
 
         let mult = matrixSearch(TRmatrix, keyID);
-        let elev = runCall(gpsLoc.latitude + mToLat(100 * mult[0]), gpsLoc.longitude + mToLong(100 * mult[1]));
+        let elev = runCall(gpsLoc.latitude + mToLat(1000 * mult[0]), gpsLoc.longitude + mToLong(1000 * mult[1]));
         document.getElementById(keyID).innerHTML = elev;
         let colorValue = map(userElev, elev);
         colorKeys(keyID, midiColors[6 + colorValue]);
@@ -165,6 +168,8 @@ function GPSsuccess(pos) {
     var crd = pos.coords;
     gpsLoc = { 'latitude': crd.latitude, 'longitude': crd.longitude };
     console.log('GPS location found!');
+    start();
+    userPos();
 }
 
 
@@ -174,6 +179,7 @@ function GPSsuccess(pos) {
  */
 function GPSerror(err) {
     console.warn(`ERROR(${err.code}): ${err.message}`);
+    alert("If you wish to use your current location, you must allow location services!");
 }
 
 
@@ -197,11 +203,6 @@ function mToLong(m) {
 }
 
 
-function relDiff(user, current) {
-    return (current - user) / user;
-}
-
-
 /**
  * Determines the relative difference between the user elevation and the current node elevation and scales to a color index value accordingly
  * @param {user elevation} user 
@@ -210,5 +211,5 @@ function relDiff(user, current) {
  */
 function map(user, current) {
     let percent = (current - user) / user;
-    return Math.round((percent * 6) / 100);
+    return Math.round((percent * 6));
 }

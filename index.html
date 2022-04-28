@@ -16,7 +16,19 @@
 </head>
 
 <body id="body">
-    <button id="start" onclick="start(); userPos();">START</button>
+
+    <button id="start" onclick="reqLocation();">Use my location!</button>
+
+    <br>
+
+    <label for="lat">Latitude:</label>
+    <input type="text" id="lat" name="lat" value="40.265896"><br><br>
+
+    <label for="lon">Longitude:</label>
+    <input type="text" id="lon" name="lon" value="-105.664631"><br><br>
+
+    <button id="submit" onclick="submitCoords();">SUBMIT</button>
+
 </body>
 
 </html>

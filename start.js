@@ -16,8 +16,16 @@ const layout = [
 
 /**
  * Builds the HTML grid of buttons for user interaction to display elevations/colors/coords relative to user position
+ * This function is tied to user accepting prompt for user location
  */
 function start() {
+
+    try {
+        document.getElementById(main).innerHTML = "";
+        console.log("Cleared old elements...");
+    } catch {
+        console.log("Beginning instance...");
+    }
 
     let main = document.createElement("div")
     main.className = "main";
@@ -76,8 +84,30 @@ function start() {
 }
 
 
+/**
+ * This function is tied to user accepting prompt for user location
+ */
 function userPos() {
     let elev = runCall(gpsLoc.latitude, gpsLoc.longitude);
     document.getElementById("center").innerHTML = `You: ${elev}`;
     userElev = elev;
+}
+
+
+/**
+ * Prompts the user for GPS location
+ * If location accepted, then start() and userPos() are called
+ * Else alert
+ */
+function reqLocation() {
+    navigator.geolocation.getCurrentPosition(GPSsuccess, GPSerror, options);
+}
+
+
+function submitCoords() {
+    gpsLoc.latitude = parseFloat(document.getElementById("lat").value);
+    gpsLoc.longitude = parseFloat(document.getElementById("lon").value);
+    console.log(gpsLoc.latitude, gpsLoc.longitude);
+    start();
+    userPos();
 }
