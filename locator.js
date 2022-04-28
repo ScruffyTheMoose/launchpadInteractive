@@ -35,9 +35,12 @@ function keyOn(keyID) {
         document.getElementById(keyID).innerHTML = elev;
         let colorValue = map(userElev, elev);
 
-        console.log(colorValue);
+        try {
+            colorKeys(keyID, midiColors[6 + colorValue]);
+        } catch {
+            console.log("No MIDI found, no keys to color...");
+        }
 
-        colorKeys(keyID, midiColors[6 + colorValue]);
         document.getElementById(keyID).style.backgroundColor = RGBColors[6 + colorValue];
 
     } else if (keyID >= 52 && keyID <= 67) {
@@ -53,7 +56,13 @@ function keyOn(keyID) {
         let elev = runCall(gpsLoc.latitude + mToLat(1000 * mult[0]), gpsLoc.longitude + mToLong(-1000 * mult[1]));
         document.getElementById(keyID).innerHTML = elev;
         let colorValue = map(userElev, elev);
-        colorKeys(keyID, midiColors[6 + colorValue]);
+
+        try {
+            colorKeys(keyID, midiColors[6 + colorValue]);
+        } catch {
+            console.log("No MIDI found, no keys to color...");
+        }
+
         document.getElementById(keyID).style.backgroundColor = RGBColors[6 + colorValue];
 
     } else if (keyID >= 68 && keyID <= 83) {
@@ -69,7 +78,13 @@ function keyOn(keyID) {
         let elev = runCall(gpsLoc.latitude + mToLat(-1000 * mult[0]), gpsLoc.longitude + mToLong(1000 * mult[1]));
         document.getElementById(keyID).innerHTML = elev;
         let colorValue = map(userElev, elev);
-        colorKeys(keyID, midiColors[6 + colorValue]);
+
+        try {
+            colorKeys(keyID, midiColors[6 + colorValue]);
+        } catch {
+            console.log("No MIDI found, no keys to color...");
+        }
+
         document.getElementById(keyID).style.backgroundColor = RGBColors[6 + colorValue];
 
     } else if (keyID >= 84 && keyID <= 99) {
@@ -85,7 +100,13 @@ function keyOn(keyID) {
         let elev = runCall(gpsLoc.latitude + mToLat(1000 * mult[0]), gpsLoc.longitude + mToLong(1000 * mult[1]));
         document.getElementById(keyID).innerHTML = elev;
         let colorValue = map(userElev, elev);
-        colorKeys(keyID, midiColors[6 + colorValue]);
+
+        try {
+            colorKeys(keyID, midiColors[6 + colorValue]);
+        } catch {
+            console.log("No MIDI found, no keys to color...");
+        }
+
         document.getElementById(keyID).style.backgroundColor = RGBColors[6 + colorValue];
 
     }

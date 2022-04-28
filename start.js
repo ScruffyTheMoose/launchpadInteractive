@@ -78,8 +78,12 @@ function start() {
 
     document.getElementById("start").remove();
 
-    for (let i = 0; i < layout.length; i++) {
-        colorKeys(layout[i], 0);
+    try {
+        for (let i = 0; i < layout.length; i++) {
+            colorKeys(layout[i], 0);
+        }
+    } catch {
+        console.log("No MIDI found, cannot reset key colors...");
     }
 }
 
