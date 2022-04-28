@@ -21,22 +21,32 @@ const layout = [
 function start() {
 
     try {
-        document.getElementById(main).innerHTML = "";
+
+        // clearing old elements from last instance
+        let mainDiv = document.getElementById("main");
+        mainDiv.remove();
+
         console.log("Cleared old elements...");
     } catch {
+
+        // no elements found to clear
         console.log("Beginning instance...");
+
     }
 
+    // building main div container for heatmap
     let main = document.createElement("div")
     main.className = "main";
     main.id = "main";
     document.getElementById("body").appendChild(main);
 
+    // building div container for upper half of heatmap grid
     let cont = document.createElement("div")
     cont.className = "grid-container";
     cont.id = "grid-cont-upper";
     document.getElementById("main").appendChild(cont);
 
+    // iteratively building boxes and adding necessary functions
     for (let i = 0; i < 32; i++) {
         let b = document.createElement("button");
         b.className = "box";
@@ -48,11 +58,13 @@ function start() {
         document.getElementById("grid-cont-upper").appendChild(b);
     }
 
+    // building div container for user location/elevation
     let centerDiv = document.createElement("div")
     centerDiv.className = "center-div";
     centerDiv.id = "center-div";
     document.getElementById("main").appendChild(centerDiv);
 
+    // adding button to center div for user info
     let center = document.createElement("button")
     center.className = "center";
     center.id = "center";
@@ -60,11 +72,13 @@ function start() {
     center.appendChild(centerNode);
     document.getElementById("center-div").appendChild(center);
 
+    // building div container for lower half of heatmap grid
     cont = document.createElement("div")
     cont.className = "grid-container";
     cont.id = "grid-cont-lower";
     document.getElementById("main").appendChild(cont);
 
+    // iteratively building boxes and adding necessary functions
     for (let i = 32; i < 64; i++) {
         let b = document.createElement("button");
         b.className = "box";
@@ -76,14 +90,18 @@ function start() {
         document.getElementById("grid-cont-lower").appendChild(b);
     }
 
-    document.getElementById("start").remove();
-
+    // try-catch for colorKeys - necessary if MIDI not connected
     try {
+
+        // if MIDI connected, reset color of all keys to 0
         for (let i = 0; i < layout.length; i++) {
             colorKeys(layout[i], 0);
         }
+
     } catch {
+
         console.log("No MIDI found, cannot reset key colors...");
+
     }
 }
 
@@ -108,6 +126,9 @@ function reqLocation() {
 }
 
 
+/**
+ * Submits the coordinates entered as inputs rather than using user location
+ */
 function submitCoords() {
     gpsLoc.latitude = parseFloat(document.getElementById("lat").value);
     gpsLoc.longitude = parseFloat(document.getElementById("lon").value);

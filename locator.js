@@ -19,10 +19,14 @@ const RGBColors = [
  * @param {*} keyID 
  */
 function keyOn(keyID) {
+
+    // logs which key pressed
     console.log(`key: ${keyID} ON`);
 
+    // checks 3rd quadrant of MIDI
     if (keyID >= 36 && keyID <= 51) {
 
+        // matrix of key IDs for quadrant
         BLmatrix = [
             [51, 50, 49, 48],
             [47, 46, 45, 44],
@@ -30,21 +34,34 @@ function keyOn(keyID) {
             [39, 38, 37, 36],
         ]
 
+        // basic linear search since matrix is small
         let mult = matrixSearch(BLmatrix, keyID);
+        // API call to get elevation data based key and relative distance from user position
         let elev = runCall(gpsLoc.latitude + mToLat(-1000 * mult[0]), gpsLoc.longitude + mToLong(-1000 * mult[1]));
+        // setting inner text to elevation
         document.getElementById(keyID).innerHTML = elev;
+        // using map function to determine color value for both button and MIDI key
         let colorValue = map(userElev, elev);
 
+        // try-catch necessary if MIDI not connected
         try {
+
+            // assigns color value to MIDI key that was pressed
             colorKeys(keyID, midiColors[6 + colorValue]);
+
         } catch {
+
             console.log("No MIDI found, no keys to color...");
+
         }
 
+        // setting button color on screen
         document.getElementById(keyID).style.backgroundColor = RGBColors[6 + colorValue];
 
+        // checks 2nd quadrant of MIDI
     } else if (keyID >= 52 && keyID <= 67) {
 
+        // matrix of key IDS for quadrant
         TLmatrix = [
             [55, 54, 53, 52],
             [59, 58, 57, 56],
@@ -52,21 +69,34 @@ function keyOn(keyID) {
             [67, 66, 65, 64],
         ]
 
+        // basic linear search since matrix is small
         let mult = matrixSearch(TLmatrix, keyID);
+        // API call to get elevation data based key and relative distance from user position
         let elev = runCall(gpsLoc.latitude + mToLat(1000 * mult[0]), gpsLoc.longitude + mToLong(-1000 * mult[1]));
+        // setting inner text to elevation
         document.getElementById(keyID).innerHTML = elev;
+        // using map function to determine color value for both button and MIDI key
         let colorValue = map(userElev, elev);
 
+        // try-catch necessary if MIDI not connected
         try {
+
+            // assigns color value to MIDI key that was pressed
             colorKeys(keyID, midiColors[6 + colorValue]);
+
         } catch {
+
             console.log("No MIDI found, no keys to color...");
+
         }
 
+        // setting button color on screen
         document.getElementById(keyID).style.backgroundColor = RGBColors[6 + colorValue];
 
+        // checks 4th quadrant of MIDI
     } else if (keyID >= 68 && keyID <= 83) {
 
+        // matrix of key IDS for quadrant
         BRmatrix = [
             [80, 81, 82, 83],
             [76, 77, 78, 79],
@@ -74,21 +104,34 @@ function keyOn(keyID) {
             [68, 69, 70, 71],
         ]
 
+        // basic linear search since matrix is small
         let mult = matrixSearch(BRmatrix, keyID);
+        // API call to get elevation data based key and relative distance from user position
         let elev = runCall(gpsLoc.latitude + mToLat(-1000 * mult[0]), gpsLoc.longitude + mToLong(1000 * mult[1]));
+        // setting inner text to elevation
         document.getElementById(keyID).innerHTML = elev;
+        // using map function to determine color value for both button and MIDI key
         let colorValue = map(userElev, elev);
 
+        // try-catch necessary if MIDI not connected
         try {
+
+            // assigns color value to MIDI key that was pressed
             colorKeys(keyID, midiColors[6 + colorValue]);
+
         } catch {
+
             console.log("No MIDI found, no keys to color...");
+
         }
 
+        // setting button color on screen
         document.getElementById(keyID).style.backgroundColor = RGBColors[6 + colorValue];
 
+        // checks 1st quadrant of MIDI
     } else if (keyID >= 84 && keyID <= 99) {
 
+        // matrix of key IDS for quadrant
         TRmatrix = [
             [84, 85, 86, 87],
             [88, 89, 90, 91],
@@ -96,22 +139,31 @@ function keyOn(keyID) {
             [96, 97, 98, 99],
         ]
 
+        // basic linear search since matrix is small
         let mult = matrixSearch(TRmatrix, keyID);
+        // API call to get elevation data based key and relative distance from user position
         let elev = runCall(gpsLoc.latitude + mToLat(1000 * mult[0]), gpsLoc.longitude + mToLong(1000 * mult[1]));
+        // setting inner text to elevation
         document.getElementById(keyID).innerHTML = elev;
+        // using map function to determine color value for both button and MIDI key
         let colorValue = map(userElev, elev);
 
+        // try-catch necessary if MIDI not connected
         try {
+
+            // assigns color value to MIDI key that was pressed
             colorKeys(keyID, midiColors[6 + colorValue]);
+
         } catch {
+
             console.log("No MIDI found, no keys to color...");
+
         }
 
+        // setting button color on screen
         document.getElementById(keyID).style.backgroundColor = RGBColors[6 + colorValue];
 
     }
-
-    keyOff(keyID);
 }
 
 
