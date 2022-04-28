@@ -41,7 +41,7 @@ function start() {
         let b = document.createElement("button");
         b.className = "box";
         b.id = layout[i];
-        b.onclick = function () { keyOn(layout[i]) };
+        b.onclick = function () { keyOn(layout[i]); keyOff(layout[i]); };
         let node = document.createTextNode(layout[i]);
         b.appendChild(node);
 
@@ -69,7 +69,7 @@ function start() {
         let b = document.createElement("button");
         b.className = "box";
         b.id = layout[i];
-        b.onclick = function () { keyOn(layout[i]) };
+        b.onclick = function () { keyOn(layout[i]); keyOff(layout[i]); };
         let node = document.createTextNode(layout[i]);
         b.appendChild(node);
 
