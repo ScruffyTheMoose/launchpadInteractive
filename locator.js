@@ -3,15 +3,13 @@
 gpsLoc = {};
 userElev = 0;
 
+const distMult = 800;
+
 
 // Color arrays for Midi and associated RGB values for on screen display
 // color arrays structured as such -> [l, l, l, l ,l, l, 0, g, g, g, g, g, g]
-// to index using the color value mapping function, use -> array[6 + colorValue]
+// to index using the color value mapMIDIping function, use -> array[6 + colorValue]
 const midiColors = [11, 10, 7, 6, 5, 4, 3, 17, 25, 33, 41, 49, 57];
-const RGBColors = [
-    "rgb(175, 120, 95)", "rgb(176, 100, 95)", "rgb(176, 100, 95)", "rgb(221, 97, 97)", "rgb(255, 96, 96)", "rgb(255, 180, 175)",
-    "rgb(50, 50, 50)", "rgb(194, 255, 84)", "rgb(100, 254, 142)", "rgb(93, 255, 239)", "rgb(98, 198, 255)", "rgb(163, 94, 255)", "rgb(255, 94, 193)"
-];
 
 
 /**
@@ -37,11 +35,11 @@ function keyOn(keyID) {
         // basic linear search since matrix is small
         let mult = matrixSearch(BLmatrix, keyID);
         // API call to get elevation data based key and relative distance from user position
-        let elev = runCall(gpsLoc.latitude + mToLat(-1000 * mult[0]), gpsLoc.longitude + mToLong(-1000 * mult[1]));
+        let elev = runCall(gpsLoc.latitude + mToLat(-distMult * mult[0]), gpsLoc.longitude + mToLong(-distMult * mult[1]));
         // setting inner text to elevation
         document.getElementById(keyID).innerHTML = elev;
-        // using map function to determine color value for both button and MIDI key
-        let colorValue = map(userElev, elev);
+        // using mapMIDI function to determine color value for both button and MIDI key
+        let colorValue = mapMIDI(userElev, elev);
 
         // try-catch necessary if MIDI not connected
         try {
@@ -56,7 +54,7 @@ function keyOn(keyID) {
         }
 
         // setting button color on screen
-        document.getElementById(keyID).style.backgroundColor = RGBColors[6 + colorValue];
+        document.getElementById(keyID).style.backgroundColor = mapButtons(userElev, elev);
 
         // checks 2nd quadrant of MIDI
     } else if (keyID >= 52 && keyID <= 67) {
@@ -72,11 +70,11 @@ function keyOn(keyID) {
         // basic linear search since matrix is small
         let mult = matrixSearch(TLmatrix, keyID);
         // API call to get elevation data based key and relative distance from user position
-        let elev = runCall(gpsLoc.latitude + mToLat(1000 * mult[0]), gpsLoc.longitude + mToLong(-1000 * mult[1]));
+        let elev = runCall(gpsLoc.latitude + mToLat(distMult * mult[0]), gpsLoc.longitude + mToLong(-distMult * mult[1]));
         // setting inner text to elevation
         document.getElementById(keyID).innerHTML = elev;
-        // using map function to determine color value for both button and MIDI key
-        let colorValue = map(userElev, elev);
+        // using mapMIDI function to determine color value for both button and MIDI key
+        let colorValue = mapMIDI(userElev, elev);
 
         // try-catch necessary if MIDI not connected
         try {
@@ -91,7 +89,7 @@ function keyOn(keyID) {
         }
 
         // setting button color on screen
-        document.getElementById(keyID).style.backgroundColor = RGBColors[6 + colorValue];
+        document.getElementById(keyID).style.backgroundColor = mapButtons(userElev, elev);
 
         // checks 4th quadrant of MIDI
     } else if (keyID >= 68 && keyID <= 83) {
@@ -107,11 +105,11 @@ function keyOn(keyID) {
         // basic linear search since matrix is small
         let mult = matrixSearch(BRmatrix, keyID);
         // API call to get elevation data based key and relative distance from user position
-        let elev = runCall(gpsLoc.latitude + mToLat(-1000 * mult[0]), gpsLoc.longitude + mToLong(1000 * mult[1]));
+        let elev = runCall(gpsLoc.latitude + mToLat(-distMult * mult[0]), gpsLoc.longitude + mToLong(distMult * mult[1]));
         // setting inner text to elevation
         document.getElementById(keyID).innerHTML = elev;
-        // using map function to determine color value for both button and MIDI key
-        let colorValue = map(userElev, elev);
+        // using mapMIDI function to determine color value for both button and MIDI key
+        let colorValue = mapMIDI(userElev, elev);
 
         // try-catch necessary if MIDI not connected
         try {
@@ -126,7 +124,7 @@ function keyOn(keyID) {
         }
 
         // setting button color on screen
-        document.getElementById(keyID).style.backgroundColor = RGBColors[6 + colorValue];
+        document.getElementById(keyID).style.backgroundColor = mapButtons(userElev, elev);
 
         // checks 1st quadrant of MIDI
     } else if (keyID >= 84 && keyID <= 99) {
@@ -142,11 +140,11 @@ function keyOn(keyID) {
         // basic linear search since matrix is small
         let mult = matrixSearch(TRmatrix, keyID);
         // API call to get elevation data based key and relative distance from user position
-        let elev = runCall(gpsLoc.latitude + mToLat(1000 * mult[0]), gpsLoc.longitude + mToLong(1000 * mult[1]));
+        let elev = runCall(gpsLoc.latitude + mToLat(distMult * mult[0]), gpsLoc.longitude + mToLong(distMult * mult[1]));
         // setting inner text to elevation
         document.getElementById(keyID).innerHTML = elev;
-        // using map function to determine color value for both button and MIDI key
-        let colorValue = map(userElev, elev);
+        // using mapMIDI function to determine color value for both button and MIDI key
+        let colorValue = mapMIDI(userElev, elev);
 
         // try-catch necessary if MIDI not connected
         try {
@@ -161,7 +159,7 @@ function keyOn(keyID) {
         }
 
         // setting button color on screen
-        document.getElementById(keyID).style.backgroundColor = RGBColors[6 + colorValue];
+        document.getElementById(keyID).style.backgroundColor = mapButtons(userElev, elev);
 
     }
 }
@@ -284,7 +282,23 @@ function mToLong(m) {
  * @param {current node elevation} current 
  * @returns 
  */
-function map(user, current) {
-    let percent = (current - user) / user;
+function mapMIDI(user, current) {
+    let percent = ((current - user) / user) % 1;
     return Math.round((percent * 6));
+}
+
+
+function mapButtons(user, current) {
+
+    // percentage relative difference between user location and current location
+    let percent = ((current - user) / user) % 1;
+    // converted percentage to rgb scale
+    rgbPrimary = Math.abs(Math.round((percent * 255)));
+    rgbSecondary = Math.abs(Math.round((percent * 50)));
+
+    if (current < user) {
+        return `rgb(0, ${rgbSecondary}, ${rgbPrimary})`;
+    } else {
+        return `rgb(${rgbPrimary}, 0, 0)`;
+    }
 }

@@ -17,17 +17,24 @@
 
 <body id="body">
 
-    <button id="start" onclick="reqLocation();">Use my location!</button>
+    <div id="main" class="main"></div>
 
-    <br>
+    <div id="controls">
 
-    <label for="lat">Latitude:</label>
-    <input type="text" id="lat" name="lat" value="40.265896"><br><br>
+        <button id="start" class="control" onclick="reqLocation();">Use my location!</button>
 
-    <label for="lon">Longitude:</label>
-    <input type="text" id="lon" name="lon" value="-105.664631"><br><br>
+        <br>
+        <br>
 
-    <button id="submit" onclick="submitCoords();">SUBMIT</button>
+        <label for="lat">Latitude:</label>
+        <input type="text" id="lat" name="lat" value="36.106765"><br><br>
+
+        <label for="lon">Longitude:</label>
+        <input type="text" id="lon" name="lon" value="-112.222772"><br><br>
+
+        <button id="submit" class="control" onclick="submitCoords();">Submit</button>
+
+    </div>
 
 </body>
 

@@ -14,6 +14,9 @@ const layout = [
 ]
 
 
+const controls = document.getElementById("controls");
+
+
 /**
  * Builds the HTML grid of buttons for user interaction to display elevations/colors/coords relative to user position
  * This function is tied to user accepting prompt for user location
@@ -23,10 +26,9 @@ function start() {
     try {
 
         // clearing old elements from last instance
-        let mainDiv = document.getElementById("main");
-        mainDiv.remove();
+        document.getElementById("main").innerHTML = "";
 
-        console.log("Cleared old elements...");
+        console.log("Clearing old elements...");
     } catch {
 
         // no elements found to clear
@@ -34,11 +36,10 @@ function start() {
 
     }
 
-    // building main div container for heatmap
-    let main = document.createElement("div")
-    main.className = "main";
-    main.id = "main";
-    document.getElementById("body").appendChild(main);
+    let main = document.getElementById("main");
+    main.style.height = "80vh";
+    main.style.width = "80wh";
+    main.style.margin = "auto";
 
     // building div container for upper half of heatmap grid
     let cont = document.createElement("div")
@@ -51,26 +52,26 @@ function start() {
         let b = document.createElement("button");
         b.className = "box";
         b.id = layout[i];
-        b.onclick = function () { keyOn(layout[i]) };
+        b.onclick = function () { keyOn(layout[i]); keyOff(layout[i]); };
         let node = document.createTextNode(layout[i]);
         b.appendChild(node);
 
         document.getElementById("grid-cont-upper").appendChild(b);
     }
 
-    // building div container for user location/elevation
-    let centerDiv = document.createElement("div")
-    centerDiv.className = "center-div";
-    centerDiv.id = "center-div";
-    document.getElementById("main").appendChild(centerDiv);
+    // // building div container for user location/elevation
+    // let centerDiv = document.createElement("div")
+    // centerDiv.className = "center-div";
+    // centerDiv.id = "center-div";
+    // document.getElementById("main").appendChild(centerDiv);
 
-    // adding button to center div for user info
-    let center = document.createElement("button")
-    center.className = "center";
-    center.id = "center";
-    let centerNode = document.createTextNode("YOUR LOCATION");
-    center.appendChild(centerNode);
-    document.getElementById("center-div").appendChild(center);
+    // // adding button to center div for user info
+    // let center = document.createElement("button")
+    // center.className = "center";
+    // center.id = "center";
+    // let centerNode = document.createTextNode("YOUR LOCATION");
+    // center.appendChild(centerNode);
+    // document.getElementById("center-div").appendChild(center);
 
     // building div container for lower half of heatmap grid
     cont = document.createElement("div")
@@ -83,7 +84,7 @@ function start() {
         let b = document.createElement("button");
         b.className = "box";
         b.id = layout[i];
-        b.onclick = function () { keyOn(layout[i]) };
+        b.onclick = function () { keyOn(layout[i]); keyOff(layout[i]); };
         let node = document.createTextNode(layout[i]);
         b.appendChild(node);
 
@@ -103,6 +104,7 @@ function start() {
         console.log("No MIDI found, cannot reset key colors...");
 
     }
+
 }
 
 
@@ -111,7 +113,7 @@ function start() {
  */
 function userPos() {
     let elev = runCall(gpsLoc.latitude, gpsLoc.longitude);
-    document.getElementById("center").innerHTML = `You: ${elev}`;
+    // document.getElementById("center").innerHTML = `You: ${elev}`;
     userElev = elev;
 }
 
