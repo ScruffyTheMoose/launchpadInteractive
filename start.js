@@ -53,7 +53,7 @@ function start() {
         b.className = "box";
         b.id = layout[i];
         b.onclick = function () { keyOn(layout[i]); keyOff(layout[i]); };
-        let node = document.createTextNode(layout[i]);
+        let node = document.createTextNode(".");
         b.appendChild(node);
 
         document.getElementById("grid-cont-upper").appendChild(b);
@@ -85,7 +85,7 @@ function start() {
         b.className = "box";
         b.id = layout[i];
         b.onclick = function () { keyOn(layout[i]); keyOff(layout[i]); };
-        let node = document.createTextNode(layout[i]);
+        let node = document.createTextNode(".");
         b.appendChild(node);
 
         document.getElementById("grid-cont-lower").appendChild(b);
